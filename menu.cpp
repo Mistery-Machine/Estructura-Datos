@@ -23,6 +23,14 @@ void menu()
         std::cout << "Seleccione una opción: ";
         std::cin >> opcion;
 
+        if (std::cin.fail())
+        {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Entrada inválida. Por favor ingrese un número.\n";
+            continue;
+        }
+
         switch (opcion)
         {
         case 1:

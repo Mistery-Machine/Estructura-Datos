@@ -1,5 +1,6 @@
 #include "ListaProductos.h"
 #include <iostream>
+#include <windows.h>
 
 ListaProductos::~ListaProductos(){
     SetConsoleOutputCP(CP_UTF8);
@@ -32,7 +33,7 @@ void ListaProductos::insertarInicio(
         pPrecio,
         pCantidad);
 
-        nuevoNodo -> setSiguiente(nuevoNodo);
+        nuevoNodo -> setSiguiente(primero);
         primero = nuevoNodo;
             
         }
@@ -72,6 +73,7 @@ Producto* ListaProductos::getUltimo(){
     Producto* nodoTemp = primero;
     if(nodoTemp == nullptr){
         std::cout <<"La lista esta vacía"<< std::endl;
+        return nullptr;
     }
 
     while(nodoTemp -> getSiguiente() != nullptr){
@@ -86,6 +88,7 @@ Producto* ListaProductos::buscar(std::string nombreBuscar){
     Producto* nodoTemp = primero;
     if(nodoTemp == nullptr){
         std::cout <<"La lista esta vacía"<< std::endl;
+        return nullptr;
     }
 
     while(nodoTemp -> getNombre() != nombreBuscar &&
@@ -97,7 +100,7 @@ Producto* ListaProductos::buscar(std::string nombreBuscar){
         return nodoTemp;
     }else{
         std::cout <<"Producto no encontrado"<<std::endl;
-        return nullptr;        
+        return nullptr;
     }
 }
 
@@ -109,6 +112,7 @@ Producto* ListaProductos::buscar(int idBuscar){
     Producto* nodoTemp = primero;
     if(nodoTemp == nullptr){
         std::cout <<"La lista esta vacía"<< std::endl;
+        return nullptr;
     }
 
     while(nodoTemp -> getId() != idBuscar &&
@@ -120,7 +124,7 @@ Producto* ListaProductos::buscar(int idBuscar){
         return nodoTemp;
     }else{
         std::cout <<"Producto no encontrado"<<std::endl;
-        return nullptr;        
+        return nullptr;
     }
 }
 
