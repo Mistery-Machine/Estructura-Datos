@@ -23,7 +23,7 @@ public:
 
         id = pId;
         nombre = pNombre;
-        precio - pPrecio;
+        precio = pPrecio;
         cantidad = pCantidad;
         siguiente = nullptr;
     }

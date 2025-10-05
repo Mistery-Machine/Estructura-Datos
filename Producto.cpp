@@ -5,7 +5,7 @@
 // Destructor
 Producto::~Producto()
 {
-    delete siguiente;
+    siguiente = nullptr;
 }
 
 int Producto::getId()
