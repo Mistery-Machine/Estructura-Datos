@@ -1,51 +1,26 @@
 #ifndef PRODUCTO_H
 #define PRODUCTO_H
 #include <string>
-#include <windows.h>
 
-class Producto
-{
-    // Atributos
+class Producto{
 private:
     int id;
     std::string nombre;
     double precio;
     int cantidad;
-    Producto *siguiente;
-
-    // Metodos
+    Producto* siguiente;
 public:
-    // Constructor
-    Producto(int pId, std::string pNombre, double pPrecio, int pCantidad)
-    {
-        SetConsoleOutputCP(CP_UTF8);
-        setlocale(LC_ALL, "es_ES.UTF-8");
+    Producto(int pid, const std::string& pnom, double pprecio, int pcant);
 
-        id = pId;
-        nombre = pNombre;
-        precio = pPrecio;
-        cantidad = pCantidad;
-        siguiente = nullptr;
-    }
-    // Destructor
-    ~Producto();
+    int getId() const;
+    const std::string& getNombre() const;
+    double getPrecio() const;
+    int getCantidad() const;
 
-    // Getter
-    int getId();
-    std::string getNombre();
-    double getPrecio();
-    int getCantidad();
-    Producto *getSiguiente();
+    Producto* getSiguiente() const;
+    void setSiguiente(Producto* p);
 
-    // Setters
-    void setId(int nuevoId);
-    void setNombre(std::string nuevoNombre);
-    void setPrecio(double nuevoPrecio);
-    void setCantidad(int nuevaCantidad);
-    void setSiguiente(Producto *nuevoSiguiente);
-
-    // Imprimir
-    void imprimir();
+    void imprimir() const;
 };
 
 #endif
