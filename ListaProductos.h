@@ -1,36 +1,21 @@
 #ifndef LISTAPRODUCTOS_H
 #define LISTAPRODUCTOS_H
 #include "Producto.h"
-#include <string>
 
 class ListaProductos{
-    private: 
-        Producto* primero;
-        
-    public: 
+private:
+    Producto* primero;
+public:
+    ListaProductos();
+    ~ListaProductos();
 
-        Producto* getPrimero();
-        Producto* getUltimo();
+    bool estaVacia() const;
+    Producto* getPrimero() const;
+    void setPrimero(Producto* p);
 
-        ListaProductos(){
-            primero = nullptr;
-        };
-
-        ~ListaProductos();
-
-        void insertarInicio(int pId, std::string pNombre, double pPrecio, int pCantidad);
-        void insertarFinal(int pId, std::string pNombre, double pPrecio, int pCantidad);
-
-
-        Producto* buscar(int idBuscar);
-        Producto* buscar(std::string nombreBuscar);
-        Producto* eliminar(std::string nombreEliminar);
-
-        void imprimir();
-
-
-
-
+    void insertarFinal(int id, const std::string& nombre, double precio, int cantidad);
+    int size() const;
+    void imprimir() const;
 };
 
 #endif

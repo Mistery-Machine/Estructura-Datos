@@ -1,170 +1,30 @@
 #include "ListaProductos.h"
 #include <iostream>
-#include <windows.h>
+
+ListaProductos::ListaProductos(): primero(nullptr){}
 
 ListaProductos::~ListaProductos(){
-    SetConsoleOutputCP(CP_UTF8);
-    setlocale(LC_ALL,"es_ES.UTF-8");
-    Producto* nodoTemp = primero;
-    if(nodoTemp == nullptr){
-        std::cout <<"La lista esta vacía"<< std::endl;
-    }
-    while(nodoTemp!=nullptr){
-        Producto* siguiente = nodoTemp -> getSiguiente();
-        delete nodoTemp;
-        nodoTemp = siguiente;
-    }    
-    primero = nullptr;
+    Producto* cur = primero;
+    while(cur){ Producto* nxt = cur->getSiguiente(); delete cur; cur = nxt; }
 }
 
-Producto* ListaProductos::getPrimero(){
-    return primero;
+bool ListaProductos::estaVacia() const{ return primero==nullptr; }
+Producto* ListaProductos::getPrimero() const{ return primero; }
+void ListaProductos::setPrimero(Producto* p){ primero = p; }
+
+void ListaProductos::insertarFinal(int id, const std::string& nombre, double precio, int cantidad){
+    Producto* nuevo = new Producto(id,nombre,precio,cantidad);
+    if(!primero){ primero = nuevo; return; }
+    Producto* cur = primero; while(cur->getSiguiente()) cur = cur->getSiguiente();
+    cur->setSiguiente(nuevo);
 }
 
-void ListaProductos::insertarInicio(
-        int pId, 
-        std::string pNombre, 
-        double pPrecio, 
-        int pCantidad){
-    
-    Producto* nuevoNodo = new Producto(
-        pId,
-        pNombre,
-        pPrecio,
-        pCantidad);
-
-        nuevoNodo -> setSiguiente(primero);
-        primero = nuevoNodo;
-            
-        }
-
-
-void ListaProductos::insertarFinal(
-        int pId, 
-        std::string pNombre, 
-        double pPrecio, 
-        int pCantidad){
-    
-    Producto* nuevoNodo = new Producto(
-        pId,
-        pNombre,
-        pPrecio,
-        pCantidad);
-
-        if(primero==nullptr){
-            primero=nuevoNodo;
-        }
-        //validar si el ID ya existe usando buscar. 
-        else if(this -> buscar(pId) != nullptr){
-            std::cout<<"El producto ya existe"<<std::endl;
-            return;
-        }
-        else{
-            Producto* ultimo = this -> getUltimo();
-            ultimo -> setSiguiente(nuevoNodo);
-            std::cout<<"El producto ha sido insertado al final de la lista"<<std::endl;
-        }
-            
-        }
-
-Producto* ListaProductos::getUltimo(){
-    SetConsoleOutputCP(CP_UTF8);
-    setlocale(LC_ALL,"es_ES.UTF-8");
-    Producto* nodoTemp = primero;
-    if(nodoTemp == nullptr){
-        std::cout <<"La lista esta vacía"<< std::endl;
-        return nullptr;
-    }
-
-    while(nodoTemp -> getSiguiente() != nullptr){
-        nodoTemp= nodoTemp->getSiguiente();
-    }
-    return nodoTemp;
+int ListaProductos::size() const{
+    int n=0; Producto* cur = primero; while(cur){ n++; cur = cur->getSiguiente(); }
+    return n;
 }
 
-Producto* ListaProductos::buscar(std::string nombreBuscar){
-    SetConsoleOutputCP(CP_UTF8);
-    setlocale(LC_ALL,"es_ES.UTF-8");
-    Producto* nodoTemp = primero;
-    if(nodoTemp == nullptr){
-        std::cout <<"La lista esta vacía"<< std::endl;
-        return nullptr;
-    }
-
-    while(nodoTemp -> getNombre() != nombreBuscar &&
-        nodoTemp -> getSiguiente() != nullptr){
-        nodoTemp= nodoTemp->getSiguiente();
-    }
-    if(nodoTemp -> getNombre() == nombreBuscar){
-        std::cout <<"Producto encontrado"<<std::endl;
-        return nodoTemp;
-    }else{
-        std::cout <<"Producto no encontrado"<<std::endl;
-        return nullptr;
-    }
-}
-
-//Sobrecarga de buscar para buscar por ID 
-
-Producto* ListaProductos::buscar(int idBuscar){
-    SetConsoleOutputCP(CP_UTF8);
-    setlocale(LC_ALL,"es_ES.UTF-8");
-    Producto* nodoTemp = primero;
-    if(nodoTemp == nullptr){
-        std::cout <<"La lista esta vacía"<< std::endl;
-        return nullptr;
-    }
-
-    while(nodoTemp -> getId() != idBuscar &&
-        nodoTemp -> getSiguiente() != nullptr){
-        nodoTemp= nodoTemp->getSiguiente();
-    }
-    if(nodoTemp -> getId() == idBuscar){
-        std::cout <<"Producto encontrado"<<std::endl;
-        return nodoTemp;
-    }else{
-        std::cout <<"Producto no encontrado"<<std::endl;
-        return nullptr;
-    }
-}
-
-Producto* ListaProductos::eliminar(std::string nombreEliminar){
-    SetConsoleOutputCP(CP_UTF8);
-    setlocale(LC_ALL,"es_ES.UTF-8");
-    Producto* nodoActual = primero;
-    Producto* nodoAnterior = nullptr;
-    bool encontrado = false;
-
-    while ((nodoActual != nullptr)&& !encontrado){
-        encontrado = nodoActual -> getNombre() == nombreEliminar;
-        if(!encontrado){
-            nodoAnterior = nodoActual;
-            nodoActual = nodoActual ->getSiguiente();
-        }
-    }
-    if(nodoActual != nullptr){
-        if(nodoActual == primero){
-            primero = primero -> getSiguiente();
-        }else{
-            nodoAnterior -> setSiguiente(nodoActual-> getSiguiente());
-        }
-        std::cout <<"El producto ha sido eliminado de la lista"<<std::endl;
-        delete nodoActual;
-        return nodoActual;
-    }
-    std::cout<<"El producto no ha sido encontrado en la lista, por lo tanto no se eliminó"<<std::endl;
-    return nullptr;
-}
-
-void ListaProductos::imprimir(){
-    SetConsoleOutputCP(CP_UTF8);
-    setlocale(LC_ALL,"es_ES.UTF-8");
-    Producto* nodoTemp = primero;
-    if(nodoTemp == nullptr){
-        std::cout <<"La lista esta vacía"<< std::endl;
-    }
-    while(nodoTemp!=nullptr){
-        nodoTemp -> imprimir();
-        nodoTemp = nodoTemp -> getSiguiente();
-    }    
+void ListaProductos::imprimir() const{
+    if(!primero){ std::cout<<"(lista vacía)\n"; return; }
+    Producto* cur = primero; while(cur){ cur->imprimir(); cur = cur->getSiguiente(); }
 }
